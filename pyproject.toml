@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Cable-Network-Reconstructor"
+version = "0.1.0"
+description = "Research prototype for cable diagnosis, fault location, and network reconstruction."
+readme = "readme.md"
+requires-python = ">=3.11,<3.13"
+license = "MIT"
+authors = [
+  { name = "Dhia Haddad" }
+]
+dependencies = [
+    "dataclasses-json>=0.6,<0.7",
+    "h5py>=3.11,<4",
+    "matplotlib>=3.8,<4",
+    "networkx>=3.2,<4",
+    "numpy>=1.26,<2.1",
+    "openpyxl>=3.1,<4",
+    "pandas>=2.2,<3",
+    "pillow>=10,<12",
+    "pybind11>=2.13,<3",
+    "pygraphviz>=1.13,<2",
+    "pyqtgraph>=0.13,<0.14",
+    "PySide6>=6.7,<7",
+    "PyYAML>=6,<7",
+    "scikit-learn>=1.5,<2",
+    "scikit-rf>=1.0,<2",
+    "scipy>=1.14,<2",
+    "XlsxWriter>=3.2,<4"
+]
+
+[project.scripts]
+cable-diagnosis-gui = "gui_qt:main"
+
+[tool.setuptools]
+py-modules = ["gui_qt"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+"src.cable_type_identification" = ["*.yml"]
