@@ -43,7 +43,10 @@ from .data.data_classes import TestCase, Statistics, XYData
 
 class FiguresLayout(QHBoxLayout):
     def __init__(self, parent=None):
-        super(FiguresLayout, self).__init__(parent)
+        if parent is None:
+            super(FiguresLayout, self).__init__()
+        else:
+            super(FiguresLayout, self).__init__(parent)
         self.initUI()
 
     def initUI(self):
@@ -59,7 +62,10 @@ class FiguresLayout(QHBoxLayout):
 
 class Legend(QHBoxLayout):
     def __init__(self, parent=None):
-        super(Legend, self).__init__(parent)
+        if parent is None:
+            super(Legend, self).__init__()
+        else:
+            super(Legend, self).__init__(parent)
         self.initUI()
 
     def initUI(self):
@@ -71,7 +77,10 @@ class Legend(QHBoxLayout):
 
 class SingleTest(QVBoxLayout):
     def __init__(self, parent=None):
-        super(SingleTest, self).__init__(parent)
+        if parent is None:
+            super(SingleTest, self).__init__()
+        else:
+            super(SingleTest, self).__init__(parent)
         self.initUI()
 
     def initUI(self):
@@ -104,7 +113,7 @@ class MultiTest(QGroupBox):
     def initUI(self):
         font_size = int(self.height() * 0.03)
         self.setFont(QtGui.QFont("Courier", font_size))
-        self.setAlignment(QtCore.Qt.AlignCenter)
+        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         layout = QVBoxLayout()
 
@@ -263,7 +272,7 @@ class TestCaseResults(QGroupBox):
     def initUI(self):
         font_size = int(self.height() * 0.03)
         self.setFont(QtGui.QFont("Courier", font_size))
-        self.setAlignment(QtCore.Qt.AlignCenter)
+        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         test_result_layout = QVBoxLayout()
         self.test_result_output = OutputField("Test result:", "-")
@@ -798,6 +807,8 @@ class SignalProcessingWidget(QWidget):
             # Frequency domain plot
             if self.chk_freq.isChecked():
                 freq_data = self.signal_processor.processed_freq_data
+                if freq_data is None:
+                    raise ValueError
                 ax1 = self.fig.add_subplot(211)
                 ax1.plot(freq_data.x, freq_data.y)
                 lo, hi = int(f_min * len(freq_data.x)), int(f_max * len(freq_data.x))

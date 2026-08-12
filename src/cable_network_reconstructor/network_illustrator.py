@@ -71,7 +71,7 @@ class NetworkIllustrator:
             )
             for node in self.G.nodes()
         ]
-        nx.draw(
+        nx.draw_networkx(
             self.G,
             pos,
             with_labels=False,

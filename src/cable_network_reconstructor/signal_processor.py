@@ -184,6 +184,8 @@ class SignalProcessor(ABC):
 
         try:
             # Determine sampling rate from x-axis (distance or time)
+            if self.td_gated is None:
+                raise ValueError
             if len(self.td_gated.x) > 1:
                 sample_spacing = self.td_gated.x[1] - self.td_gated.x[0]
                 fs = 1.0 / sample_spacing
@@ -220,6 +222,8 @@ class SignalProcessor(ABC):
             self.td_filtered = self.td_gated  # Fallback to gated data
 
     def _find_peak_indices(self) -> None:
+        if self.td_filtered is None:
+            raise ValueError
         try:
             # Convert distance threshold to sample distance
             if len(self.td_filtered.x) > 1:
@@ -305,64 +309,6 @@ class SignalProcessor(ABC):
             data.x[1] - data.x[0]
         )  # Assuming uniform spacing
         return XYData(array_peaks_x_int, array_peaks_y_int)
-
-    def gaussian_chirp_peak_extraction(
-        self, model_path: str, excitation_path: str, height: float
-    ) -> None:
-        """
-        Extract peaks using Gaussian chirp correlation method.
-
-        Args:
-            model_path: Path to the measurement signal file
-            excitation_path: Path to the excitation signal file
-            height: Peak height threshold
-        """
-        SIGNAL_AMPLITUDE = 5
-
-        dbi = SQLInterface("database.db")
-        dbi.clear_table("peaks")
-
-        raw_data = self.data_loader.load_signal_data(model_path)
-        excitation_data = self.data_loader.load_signal_data(excitation_path)
-
-        new_time_step = 1e-9
-        resampled_raw_data = self.resample_data(raw_data, new_time_step)
-        resampled_excitation_data = self.resample_data(excitation_data, new_time_step)
-
-        # Cross-correlation
-        correlated_y = correlate(resampled_raw_data.y, resampled_excitation_data.y)[
-            len(resampled_excitation_data.y) - 1 :
-        ]
-        correlated_data = XYData(
-            resampled_raw_data.x, correlated_y * SIGNAL_AMPLITUDE / max(correlated_y)
-        )
-
-        # Plotting
-        plt.figure(1)
-        plt.plot(raw_data.x, raw_data.y / 2)
-        plt.xlim(-2e-7, 1e-5)
-        plt.xlabel("Time (s)")
-        plt.ylabel("Amplitude (V)")
-
-        plt.figure(2)
-        plt.plot(excitation_data.x, excitation_data.y / 2)
-        plt.xlim(-2e-9, 1e-7)
-        plt.xlabel("Time (s)")
-        plt.ylabel("Amplitude (V)")
-
-        plt.figure(3)
-        plt.plot(correlated_data.x, correlated_data.y, label="Cross-correlation")
-        plt.plot(self.peaks.x, self.peaks.y, "ro", markersize=3, label="Peaks")
-        plt.xlim(-2e-7, 1e-5)
-        plt.xlabel("Time (s)")
-        plt.ylabel("Amplitude (V)")
-        plt.legend()
-        plt.show()
-
-        for i in range(1, len(self.peaks.x)):
-            dbi.insert_peak(self.peaks.x[i] * 2e8, self.peaks.y[i])
-        dbi.commit()
-        dbi.close_db()
 
     def get_frequency_data(self) -> XYData:
         return self.freq_data
