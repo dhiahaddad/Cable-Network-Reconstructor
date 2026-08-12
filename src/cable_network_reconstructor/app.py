@@ -1,8 +1,7 @@
-import random
-import re
-import sys
 import os
-from typing import List
+import random
+import sys
+
 import numpy as np
 
 # Add the project root to the path for imports
@@ -14,10 +13,11 @@ from .common_code.YamlLoader import YamlLoader
 from .data.data_classes import Statistics, TestCase, TestComparison, XYData
 from .data.load_signal_data import get_test_case
 from .data.sql_interface import SQLInterface
-from .utils.generate_existing_models_names import filter_network_model_names
 from .signal_processor import SignalProcessorFactory
+from .utils.generate_existing_models_names import filter_network_model_names
+
 try:
-    from .cpp_binaries import CppToPython # type: ignore[reportMissingImports]
+    from .cpp_binaries import CppToPython  # type: ignore[reportMissingImports]
 except ImportError:
     CppToPython = None
 
@@ -29,7 +29,7 @@ class App:
     _peak_height: float = 0.0
     _tests_number: int = 25
     _parent_folder: str = ""
-    _model_names: List[str] = []
+    _model_names: list[str] = []
     _reconstruction_level: int = 1
     _min_complexity_input: int = 1
     _max_complexity_input: int = 1

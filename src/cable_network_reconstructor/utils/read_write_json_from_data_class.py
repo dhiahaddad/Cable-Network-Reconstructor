@@ -1,11 +1,11 @@
 import json
+
 from ..data import Statistics, TestCase
-from typing import List
 
 
 def write_json_statistics( statistics:Statistics):
 
-    with open(f"results//statistics.json", "w") as outfile:
+    with open("results//statistics.json", "w") as outfile:
         # json_object = json.dumps(statistics.to_json())
         json_object = dict(total_tests_number = statistics.total_tests_number, success_percentage = statistics.success_percentage, processing_time = statistics.processing_time)
         print(str(json_object))
@@ -22,7 +22,7 @@ def write_json_test_cases(model_name, test_case:TestCase):
 
 def read_json_statistics():
 
-    with open(f"results//statistics.json") as file:
+    with open("results//statistics.json") as file:
         json_object = json.load(file)
         print("Type:", type(json_object))
         statistics = Statistics(json_object["total_tests_number"], json_object["success_percentage"], json_object["processing_time"]) 

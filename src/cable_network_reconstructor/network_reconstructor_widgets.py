@@ -1,52 +1,43 @@
-import sys
-import numpy as np
 import logging
-from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QFileDialog,
-    QLabel,
-    QSpinBox,
-    QDoubleSpinBox,
-    QGroupBox,
-    QComboBox,
-    QLineEdit,
-    QFormLayout,
-    QSizePolicy,
-    QCheckBox,
-    QSlider,
-    QTabWidget,
-    QSplitter,
-)
-from PySide6.QtGui import QPixmap, QFont, QPainter, QPen, QBrush, QColor
-from PySide6 import QtCore, QtGui
-from PySide6.QtCore import Qt, QTimer
 
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from .signal_processor import SignalProcessorFactory
+from PySide6 import QtCore, QtGui
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QBrush, QColor, QPainter, QPen
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QFormLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QSlider,
+    QVBoxLayout,
+    QWidget,
+)
+
 from .common_code.common_qt_widgets import (
     CheckBox,
+    ImageWidget,
     InputField_QDoubleSpinBox,
     InputField_QSpinBox,
-    ImageWidget,
     InputFileSelector,
     OutputField,
     PushButton,
 )
 from .common_code.YamlLoader import YamlLoader
-
-from .data.data_classes import TestCase, Statistics, XYData
+from .data.data_classes import Statistics, TestCase
+from .signal_processor import SignalProcessorFactory
 
 
 class FiguresLayout(QHBoxLayout):
     def __init__(self, parent=None):
         if parent is None:
-            super(FiguresLayout, self).__init__()
+            super().__init__()
         else:
-            super(FiguresLayout, self).__init__(parent)
+            super().__init__(parent)
         self.initUI()
 
     def initUI(self):
@@ -63,9 +54,9 @@ class FiguresLayout(QHBoxLayout):
 class Legend(QHBoxLayout):
     def __init__(self, parent=None):
         if parent is None:
-            super(Legend, self).__init__()
+            super().__init__()
         else:
-            super(Legend, self).__init__(parent)
+            super().__init__(parent)
         self.initUI()
 
     def initUI(self):
@@ -78,9 +69,9 @@ class Legend(QHBoxLayout):
 class SingleTest(QVBoxLayout):
     def __init__(self, parent=None):
         if parent is None:
-            super(SingleTest, self).__init__()
+            super().__init__()
         else:
-            super(SingleTest, self).__init__(parent)
+            super().__init__(parent)
         self.initUI()
 
     def initUI(self):
@@ -106,7 +97,7 @@ class SingleTest(QVBoxLayout):
 
 class MultiTest(QGroupBox):
     def __init__(self, parent=None):
-        super(MultiTest, self).__init__(parent)
+        super().__init__(parent)
         self.initUI()
         self.setTitle("Multiple Test Results")
 
@@ -142,7 +133,7 @@ class MultiTest(QGroupBox):
     def update_statistics(self, statistics: Statistics):
         self.success_output.value.setText(str(statistics.success_percentage) + "%")
         self.time_output.value.setText(
-            "{:,.0f}".format(statistics.processing_time).replace(",", "'")
+            f"{statistics.processing_time:,.0f}".replace(",", "'")
             + " microseconds"
         )
         self.number_of_tests.value.setText(
@@ -152,16 +143,14 @@ class MultiTest(QGroupBox):
             str(statistics.successful_tests_number) + " tests"
         )
         self.average_time.value.setText(
-            "{:,.0f}".format(
-                statistics.processing_time / statistics.total_tests_number
-            ).replace(",", "'")
+            f"{statistics.processing_time / statistics.total_tests_number:,.0f}".replace(",", "'")
             + " microseconds"
         )
 
 
 class SingleTestInputs(QGroupBox):
     def __init__(self, config, parent=None):
-        super(SingleTestInputs, self).__init__(parent)
+        super().__init__(parent)
         self.config = config
         self.initUI()
         self.setTitle("Input Parameters")
@@ -223,7 +212,7 @@ class SingleTestInputs(QGroupBox):
 
 class MultiTestInputs(QGroupBox):
     def __init__(self, config, parent=None):
-        super(MultiTestInputs, self).__init__(parent)
+        super().__init__(parent)
         self.config = config
         self.initUI()
         self.setTitle("Multiple Cable Network Reconstruction")
@@ -265,7 +254,7 @@ class MultiTestInputs(QGroupBox):
 
 class TestCaseResults(QGroupBox):
     def __init__(self, parent=None):
-        super(TestCaseResults, self).__init__(parent)
+        super().__init__(parent)
         self.setTitle("Test Results")
         self.initUI()
 
@@ -292,10 +281,10 @@ class TestCaseResults(QGroupBox):
 
     def update_results(self, test_case: TestCase):
         self.test_result_output.value.setText(
-            ("Correct" if test_case.test_result == "1" else "Incorrect")
+            "Correct" if test_case.test_result == "1" else "Incorrect"
         )
         self.test_time_output.value.setText(
-            "{:,.0f}".format(test_case.processing_time).replace(",", "'")
+            f"{test_case.processing_time:,.0f}".replace(",", "'")
             + " microseconds"
         )
         # self.peaks_output.value.setText(str(test_case.identified_peaks_number))

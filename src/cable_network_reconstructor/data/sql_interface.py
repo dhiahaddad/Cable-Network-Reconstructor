@@ -1,10 +1,9 @@
 import sqlite3
-import json
-from typing import Any, List
+from typing import Any
 
+from ..network_illustrator import NetworkIllustrator
 from .data_loader import DataLoader
 from .load_mat_input_data import *
-from ..network_illustrator import NetworkIllustrator
 
 
 class SQLInterface:
@@ -73,7 +72,7 @@ class SQLInterface:
     def close_db(self) -> None:
         self.connection.close()
 
-    def get_test_cases(self) -> List[Any]:
+    def get_test_cases(self) -> list[Any]:
         self.cursor.execute("SELECT * FROM test_cases")
         rows = self.cursor.fetchall()
         for row in rows:

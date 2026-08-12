@@ -8,12 +8,14 @@ The DataLoader class provides a consistent interface for all file loading operat
 and integrates with the existing data processing pipeline.
 """
 
-import os
-import scipy.io
-import pandas as pd
-import numpy as np
 import logging
-from typing import Optional, Tuple, List, Any
+import os
+from typing import Any
+
+import numpy as np
+import pandas as pd
+import scipy.io
+
 from .data_classes import XYData
 
 try:
@@ -76,7 +78,7 @@ class DataLoader:
             self.logger.info("Loaded MAT file: %d data points", len(data_x))
             return XYData(x=data_x, y=data_y)
         except Exception as e:
-            raise ValueError(f"Failed to load MAT file {file_path}: {str(e)}") from e
+            raise ValueError(f"Failed to load MAT file {file_path}: {e!s}") from e
 
     def _load_csv_data(self, file_path: str) -> XYData:
         """Load signal data from CSV file."""
@@ -93,7 +95,7 @@ class DataLoader:
             self.logger.info("Loaded CSV file: %d valid data points", mask.sum())
             return XYData(np.asarray(time[mask]),np.asarray(s11[mask]))
         except Exception as e:
-            raise ValueError(f"Failed to load CSV file {file_path}: {str(e)}") from e
+            raise ValueError(f"Failed to load CSV file {file_path}: {e!s}") from e
 
     def _load_s_parameter_data(self, file_path: str) -> XYData:
         """Load S-parameter data from .s1p or .s2p files."""
@@ -166,7 +168,7 @@ class DataLoader:
 
         except Exception as e:
             raise ValueError(
-                f"Failed to load S-parameter file {file_path}: {str(e)}"
+                f"Failed to load S-parameter file {file_path}: {e!s}"
             ) from e
 
     def _auto_detect_and_load(self, file_path: str) -> XYData:
@@ -187,7 +189,7 @@ class DataLoader:
                     f"Could not determine file format for: {file_path}"
                 ) from exc
 
-    def load_model_input(self, file_path: str = "Model_1") -> List[List[Any]]:
+    def load_model_input(self, file_path: str = "Model_1") -> list[list[Any]]:
         """
         Load network topology data from MATLAB input file.
 
@@ -260,12 +262,12 @@ class DataLoader:
 
         except Exception as e:
             raise ValueError(
-                f"Failed to load model input from {input_file_path}: {str(e)}"
+                f"Failed to load model input from {input_file_path}: {e!s}"
             ) from e
 
     def load_and_filter_model_data(
         self, file_path: str = "Model_1"
-    ) -> Tuple[List, List, List]:
+    ) -> tuple[list, list, list]:
         """
         Load model input data and filter into nodes, loads, and faults.
 
@@ -303,7 +305,7 @@ class DataLoader:
         return nodes, loads, faults
 
     @staticmethod
-    def get_supported_formats() -> List[str]:
+    def get_supported_formats() -> list[str]:
         """Get list of supported file formats."""
         return [".s1p", ".s2p", ".csv", ".mat"]
 

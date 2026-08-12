@@ -1,24 +1,25 @@
 import pickle
-from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QFileDialog,
-    QLabel,
-    QSpinBox,
-    QDoubleSpinBox,
-    QGroupBox,
-    QCheckBox,
-)
-from PySide6.QtGui import QPixmap, QFont
-from PySide6 import QtCore, QtGui
+
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from PySide6 import QtCore, QtGui
+from PySide6.QtGui import QFont, QPixmap
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QDoubleSpinBox,
+    QFileDialog,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSpinBox,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class InputField_QSpinBox(QWidget):
     def __init__(self, label: str, parent=None):
-        super(InputField_QSpinBox, self).__init__(parent)
+        super().__init__(parent)
         self.initUI(label)
 
     def initUI(self, label):
@@ -49,7 +50,7 @@ class InputField_QSpinBox(QWidget):
 
 class InputField_QDoubleSpinBox(QWidget):
     def __init__(self, label: str, parent=None):
-        super(InputField_QDoubleSpinBox, self).__init__(parent)
+        super().__init__(parent)
         self.initUI(label)
 
     def initUI(self, label):
@@ -81,7 +82,7 @@ class InputFileSelector(QWidget):
     file_path: str
 
     def __init__(self, label: str, file_path: str, parent=None):
-        super(InputFileSelector, self).__init__(parent)
+        super().__init__(parent)
         self.file_path = file_path
         self.label_txt = label
         self.initUI()
@@ -119,7 +120,7 @@ class InputFileSelector(QWidget):
 
 class ImageWidget(QGroupBox):
     def __init__(self, title, parent=None):
-        super(ImageWidget, self).__init__(parent)
+        super().__init__(parent)
         self.initUI()
         self.setTitle(title)
 
@@ -141,7 +142,7 @@ class ImageWidget(QGroupBox):
 
 class MatplotlibWidget(QGroupBox):
     def __init__(self, title, path, parent=None):
-        super(MatplotlibWidget, self).__init__(parent)
+        super().__init__(parent)
         self.path = path
         self.canvas = FigureCanvas()
         self.initUI()
@@ -165,9 +166,9 @@ class MatplotlibWidget(QGroupBox):
 class OutputField(QHBoxLayout):
     def __init__(self, label: str, value: str, parent: QWidget | None = None) -> None:
         if parent is None:
-            super(OutputField, self).__init__()
+            super().__init__()
         else:
-            super(OutputField, self).__init__(parent)
+            super().__init__(parent)
         self.initUI(label, value)
 
     def initUI(self, label, value):
@@ -183,7 +184,7 @@ class OutputField(QHBoxLayout):
 
 class PushButton(QPushButton):
     def __init__(self, label: str, height, parent=None):
-        super(PushButton, self).__init__(label, parent)
+        super().__init__(label, parent)
         self.initUI(height)
 
     def initUI(self, height):
@@ -200,7 +201,7 @@ class PushButton(QPushButton):
 
 class OutputText(QGroupBox):
     def __init__(self, title: str, height, parent=None):
-        super(OutputText, self).__init__(parent)
+        super().__init__(parent)
         self._title = title
         self.initUI(height)
 
@@ -222,7 +223,7 @@ class OutputText(QGroupBox):
 
 class HeaderWidget(QWidget):
     def __init__(self, title, parent=None):
-        super(HeaderWidget, self).__init__(parent)
+        super().__init__(parent)
         self.initUI(title)
 
     def initUI(self, title):
@@ -252,7 +253,7 @@ class HeaderWidget(QWidget):
 
 class PageTitleWidget(QGroupBox):
     def __init__(self, title, parent=None):
-        super(PageTitleWidget, self).__init__(parent)
+        super().__init__(parent)
         self.initUI(title)
 
     def initUI(self, title):
@@ -270,7 +271,7 @@ class PageTitleWidget(QGroupBox):
 
 class FiguresGroup(QGroupBox):
     def __init__(self, title1, title2, path1, path2, parent=None):
-        super(FiguresGroup, self).__init__(parent)
+        super().__init__(parent)
         self.initUI(title1, title2, path1, path2)
 
     def initUI(self, title1, title2, path1, path2):
@@ -284,7 +285,7 @@ class FiguresGroup(QGroupBox):
 
 class FaultLocatorInputs(QGroupBox):
     def __init__(self, parent=None):
-        super(FaultLocatorInputs, self).__init__(parent)
+        super().__init__(parent)
         self.initUI()
 
     def initUI(self):
@@ -309,7 +310,7 @@ class FaultLocatorInputs(QGroupBox):
 
 class CheckBox(QWidget):
     def __init__(self, label: str, parent=None):
-        super(CheckBox, self).__init__(parent)
+        super().__init__(parent)
         self.initUI(label)
 
     def initUI(self, label: str):

@@ -1,39 +1,36 @@
-from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QRadioButton,
-    QButtonGroup,
-    QGroupBox,
-    QLabel,
-)
-from PySide6.QtCore import Signal
 import logging
 
-from .data.data_classes import XYData
+from PySide6.QtCore import Signal
+from PySide6.QtWidgets import (
+    QGroupBox,
+    QHBoxLayout,
+    QVBoxLayout,
+    QWidget,
+)
 
+from .app import App
 from .common_code.common_qt_widgets import (
+    CheckBox,
+    InputField_QSpinBox,
     PageTitleWidget,
     PushButton,
-    InputField_QSpinBox,
-    CheckBox,
 )
 from .common_code.YamlLoader import YamlLoader
+from .data.data_classes import XYData
 from .network_reconstructor_widgets import (
+    BasicParametersWidget,
     MultiTest,
     MultiTestInputs,
-    SingleTest,
     SignalProcessingWidget,
-    BasicParametersWidget,
+    SingleTest,
 )
-from .app import App
 
 
 class ReconstructionInputPage(QWidget):
     data_emitted = Signal(XYData)
 
     def __init__(self, parent=None):
-        super(ReconstructionInputPage, self).__init__(parent)
+        super().__init__(parent)
         self.config = YamlLoader.get_reconstruction_config()
         self.initUI()
 
@@ -117,7 +114,7 @@ class ReconstructionInputPage(QWidget):
 
 class ReconstructionTestConfigPage(QWidget):
     def __init__(self, parent=None):
-        super(ReconstructionTestConfigPage, self).__init__(parent)
+        super().__init__(parent)
         self.config = YamlLoader.get_reconstruction_config()
         self.initUI()
 
@@ -224,7 +221,7 @@ class ReconstructionTestConfigPage(QWidget):
 
 class ReconstructionSingleTestPage(QWidget):
     def __init__(self, app: App, parent=None):
-        super(ReconstructionSingleTestPage, self).__init__(parent)
+        super().__init__(parent)
         self.config = YamlLoader.get_reconstruction_config()
         self.app = app
         self.initUI()
@@ -277,7 +274,7 @@ class ReconstructionSingleTestPage(QWidget):
 
 class ReconstructionMultiTestPage(QWidget):
     def __init__(self, app: App, parent=None):
-        super(ReconstructionMultiTestPage, self).__init__(parent)
+        super().__init__(parent)
         self.config = YamlLoader.get_reconstruction_config()
         self.app = app
         self.initUI()

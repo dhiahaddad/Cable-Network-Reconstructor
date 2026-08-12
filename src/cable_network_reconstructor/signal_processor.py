@@ -8,18 +8,18 @@ Supports S-parameter files (.s1p, .s2p), CSV files, and MATLAB files (.mat).
 Now integrates with the DataLoader class for unified file loading.
 """
 
-from abc import ABC, abstractmethod
 import logging
 import os
-from typing import Dict, Tuple, Optional, Any
-from scipy.interpolate import interp1d
+from abc import ABC, abstractmethod
+from typing import Any
+
 import numpy as np
 import skrf as rf
-import matplotlib.pyplot as plt
-from scipy.signal import find_peaks, windows, butter, filtfilt, correlate
-from .data.data_loader import DataLoader
+from scipy.interpolate import interp1d
+from scipy.signal import butter, filtfilt, find_peaks, windows
+
 from .data.data_classes import XYData
-from .data.sql_interface import SQLInterface
+from .data.data_loader import DataLoader
 
 
 class SignalProcessorFactory:
@@ -47,38 +47,38 @@ class SignalProcessorFactory:
 
 class SignalProcessor(ABC):
     file_path: str
-    time_data: Optional[XYData] = None
-    freq_data: Optional[XYData] = None
-    distance_data: Optional[XYData] = None
-    td_gated: Optional[XYData] = None
-    td_filtered: Optional[XYData] = None
-    freq: Optional[np.ndarray] = None
-    chosen_fd_values: Optional[np.ndarray] = None
-    processed_freq_data: Optional[XYData] = None
-    peak_indices: Optional[np.ndarray] = None
-    peaks: Optional[XYData] = None
-    gating: Optional[str] = None
-    filter_type: Optional[str] = None
-    peak_distance: Optional[float] = None
-    prominence: Optional[float] = None
-    speed: Optional[float] = None
-    window_type: Optional[str] = None
-    apply_derivative: Optional[bool] = None
-    apply_integral: Optional[bool] = None
-    filter_band: Optional[float] = None
-    chosen_signal: Optional[str] = None
-    show_absolute: Optional[bool] = None
-    freq_real: Optional[XYData]
-    freq_imag: Optional[XYData]
-    freq_mag: Optional[XYData]
-    freq_phase: Optional[XYData]
+    time_data: XYData | None = None
+    freq_data: XYData | None = None
+    distance_data: XYData | None = None
+    td_gated: XYData | None = None
+    td_filtered: XYData | None = None
+    freq: np.ndarray | None = None
+    chosen_fd_values: np.ndarray | None = None
+    processed_freq_data: XYData | None = None
+    peak_indices: np.ndarray | None = None
+    peaks: XYData | None = None
+    gating: str | None = None
+    filter_type: str | None = None
+    peak_distance: float | None = None
+    prominence: float | None = None
+    speed: float | None = None
+    window_type: str | None = None
+    apply_derivative: bool | None = None
+    apply_integral: bool | None = None
+    filter_band: float | None = None
+    chosen_signal: str | None = None
+    show_absolute: bool | None = None
+    freq_real: XYData | None
+    freq_imag: XYData | None
+    freq_mag: XYData | None
+    freq_phase: XYData | None
     data_loader: DataLoader
 
     def __init__(self, file_path: str):
         self.file_path = file_path
         self.data_loader = DataLoader()
 
-    def get_time_data(self) -> Optional[XYData]:
+    def get_time_data(self) -> XYData | None:
         """
         Get the time domain data.
 
@@ -87,7 +87,7 @@ class SignalProcessor(ABC):
         """
         return self.time_data
 
-    def get_freq_data(self) -> Optional[XYData]:
+    def get_freq_data(self) -> XYData | None:
         """
         Get the frequency domain data.
 
@@ -96,7 +96,7 @@ class SignalProcessor(ABC):
         """
         return self.freq_data
 
-    def get_peak_indices(self) -> Optional[np.ndarray]:
+    def get_peak_indices(self) -> np.ndarray | None:
         """
         Get the peak indices.
 
@@ -105,7 +105,7 @@ class SignalProcessor(ABC):
         """
         return self.peak_indices
 
-    def get_peaks(self) -> Optional[XYData]:
+    def get_peaks(self) -> XYData | None:
         """
         Get the peak data.
 
@@ -125,9 +125,8 @@ class SignalProcessor(ABC):
 
         This method should be implemented by subclasses to handle specific file formats.
         """
-        pass
 
-    def run_signal_processing(self, parameters: Dict[str, Any]) -> None:
+    def run_signal_processing(self, parameters: dict[str, Any]) -> None:
         self.peak_distance = parameters.get("peak_distance")
         self.prominence = parameters.get("prominence")
         self.speed = parameters.get("speed")

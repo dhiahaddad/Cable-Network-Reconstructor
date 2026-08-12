@@ -1,11 +1,18 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
-from PySide6 import QtGui
 
-from .common_code.home_page import HomePage
+from PySide6 import QtGui
+from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget
+
 from .app import App
+from .common_code.home_page import HomePage
 from .common_code.YamlLoader import YamlLoader
-from .network_reconstructor_pages import ReconstructionInputPage, ReconstructionTestConfigPage, ReconstructionMultiTestPage, ReconstructionSingleTestPage
+from .network_reconstructor_pages import (
+    ReconstructionInputPage,
+    ReconstructionMultiTestPage,
+    ReconstructionSingleTestPage,
+    ReconstructionTestConfigPage,
+)
+
 
 class CableDiagnosisGUI(QMainWindow):
     def __init__(self):

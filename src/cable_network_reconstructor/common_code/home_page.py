@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel
+from PySide6 import QtCore
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout, QWidget
+
 from .common_qt_widgets import HeaderWidget, PushButton
 from .YamlLoader import YamlLoader
-from PySide6 import QtCore
 
 
 class HomePage(QWidget):

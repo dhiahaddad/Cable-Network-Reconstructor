@@ -1,1 +1,1 @@
-from .data_classes import XYData,Statistics,TestComparison,TestCase
+from .data_classes import Statistics, TestCase, TestComparison, XYData

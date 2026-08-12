@@ -1,6 +1,6 @@
-from typing import Dict, List, Optional
-import numpy as np
 from dataclasses import dataclass
+
+import numpy as np
 from dataclasses_json import dataclass_json
 
 
@@ -9,7 +9,7 @@ class XYData:
     x: np.ndarray
     y: np.ndarray
 
-    def get_subset(self, indices: List[int]) -> "XYData":
+    def get_subset(self, indices: list[int]) -> "XYData":
         """
         Get a subset of the XYData based on the provided indices.
 
@@ -34,10 +34,10 @@ class XYData:
 @dataclass_json
 @dataclass
 class TestComparison:
-    reference_nodes: List[List[str]]
-    reference_loads: List[List[str]]
-    to_test_nodes: List[List[str]]
-    to_test_loads: List[List[str]]
+    reference_nodes: list[list[str]]
+    reference_loads: list[list[str]]
+    to_test_nodes: list[list[str]]
+    to_test_loads: list[list[str]]
 
 
 @dataclass_json

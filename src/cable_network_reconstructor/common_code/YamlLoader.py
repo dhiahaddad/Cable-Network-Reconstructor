@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
-from typing import Any, Optional, Dict
-import yaml
-import io
-import os
 import logging
+import os
+from typing import Any
+
+import yaml
 
 
 class YamlLoader:
     # Static class variables to store configurations
-    _reconstruction_config: Optional[dict] = None
+    _reconstruction_config: dict | None = None
     _reconstruction_config_path: str = "config/conf.yml"
 
     DEFAULT_CONFIG = {
@@ -67,7 +66,7 @@ class YamlLoader:
     @classmethod
     def _write_yml(cls, path: str, data: Any) -> None:
         """Write data to YAML file"""
-        with io.open(path, "w", encoding="utf8") as outfile:
+        with open(path, "w", encoding="utf8") as outfile:
             yaml.dump(data, outfile, default_flow_style=False, allow_unicode=True)
 
     @classmethod
@@ -121,7 +120,7 @@ class YamlLoader:
         cls.save_reconstruction_config()
 
     @classmethod
-    def get_safe(cls, config: Dict[str, Any], path: str, default: Any = None) -> Any:
+    def get_safe(cls, config: dict[str, Any], path: str, default: Any = None) -> Any:
         """
         Safely get a value from nested configuration using dot notation.
 
@@ -192,7 +191,7 @@ class YamlLoader:
             return None
 
     @classmethod
-    def ensure_section_exists(cls, config: Dict[str, Any], section: str) -> None:
+    def ensure_section_exists(cls, config: dict[str, Any], section: str) -> None:
         """
         Ensure that a configuration section exists, creating it with defaults if needed.
 
@@ -214,7 +213,7 @@ class YamlLoader:
 
     @classmethod
     def ensure_key_exists(
-        cls, config: Dict[str, Any], path: str, default: Any = None
+        cls, config: dict[str, Any], path: str, default: Any = None
     ) -> None:
         """
         Ensure that a configuration key exists, setting it to default if needed.
@@ -250,7 +249,7 @@ class YamlLoader:
             logging.error(f"Error ensuring config key '{path}' exists: {e}")
 
     @classmethod
-    def validate_and_fix_config(cls, config: Dict[str, Any]) -> Dict[str, Any]:
+    def validate_and_fix_config(cls, config: dict[str, Any]) -> dict[str, Any]:
         """
         Validate configuration and add missing keys with default values.
 
