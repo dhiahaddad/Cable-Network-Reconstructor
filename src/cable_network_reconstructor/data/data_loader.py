@@ -84,14 +84,14 @@ class DataLoader:
             df = pd.read_csv(
                 file_path, skiprows=6, delimiter=",", decimal=".", header=0
             )
-            time = pd.to_numeric(df["Time(s)"], errors="coerce")
-            s11 = pd.to_numeric(df["S11(REAL)"], errors="coerce")
+            time: pd.Series = pd.to_numeric(df["Time(s)"], errors="coerce")
+            s11: pd.Series = pd.to_numeric(df["S11(REAL)"], errors="coerce")
 
             # Drop rows where either value is NaN
             mask = time.notna() & s11.notna()
 
             self.logger.info("Loaded CSV file: %d valid data points", mask.sum())
-            return XYData(time[mask].to_numpy(), s11[mask].to_numpy())
+            return XYData(np.asarray(time[mask]),np.asarray(s11[mask]))
         except Exception as e:
             raise ValueError(f"Failed to load CSV file {file_path}: {str(e)}") from e
 
