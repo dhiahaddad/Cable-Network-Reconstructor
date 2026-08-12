@@ -16,8 +16,10 @@ from .data.load_signal_data import get_test_case
 from .data.sql_interface import SQLInterface
 from .utils.generate_existing_models_names import filter_network_model_names
 from .signal_processor import SignalProcessorFactory
-from cpp.binaries import CppToPython  # type: ignore[reportMissingImports]
-
+try:
+    from .cpp_binaries import CppToPython # type: ignore[reportMissingImports]
+except ImportError:
+    CppToPython = None
 
 class App:
 
@@ -146,6 +148,10 @@ class App:
             return
 
         print(self._model_name)
+        if CppToPython is None:
+            raise RuntimeError(
+                "C++ extension is not available. Build the native module before using this feature."
+            )
         CppToPython.py_main()
         # test_result_idx = 2
         # test_result = test_case_statistics[test_result_idx]
@@ -251,6 +257,10 @@ class App:
             dbi.commit()
             dbi.close_db()
             print(model_name)
+            if CppToPython is None:
+                raise RuntimeError(
+                    "C++ extension is not available. Build the native module before using this feature."
+                )
             CppToPython.py_single_test()
             test_result_idx = 2
             is_complete_idx = 8
@@ -325,6 +335,10 @@ class App:
         dbi.update_mat_input_table(self._file_name)
         dbi.commit()
         dbi.close_db()
+        if CppToPython is None:
+            raise RuntimeError(
+                "C++ extension is not available. Build the native module before using this feature."
+            )
         CppToPython.py_single_test()
 
     def run_all_level_two_tests(self):
