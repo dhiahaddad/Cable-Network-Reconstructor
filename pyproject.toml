@@ -32,11 +32,16 @@ dependencies = [
     "XlsxWriter>=3.2,<4"
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<9",
+    "ruff",
+    "pyright",
+    "pre-commit",
+]
+
 [project.scripts]
 cable-diagnosis-gui = "gui_qt:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.setuptools.package-data]
-"src.cable_type_identification" = ["*.yml"]
