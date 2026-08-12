@@ -7,7 +7,7 @@ name = "Cable-Network-Reconstructor"
 version = "0.1.0"
 description = "Research prototype for cable diagnosis, fault location, and network reconstruction."
 readme = "readme.md"
-requires-python = ">=3.11,<3.13"
+requires-python = ">=3.10,<3.13"
 license = "MIT"
 authors = [
   { name = "Dhia Haddad" }
@@ -35,12 +35,8 @@ dependencies = [
 [project.scripts]
 cable-diagnosis-gui = "gui_qt:main"
 
-[tool.setuptools]
-py-modules = ["gui_qt"]
-
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["src*"]
+where = ["src"]
 
 [tool.setuptools.package-data]
 "src.cable_type_identification" = ["*.yml"]
