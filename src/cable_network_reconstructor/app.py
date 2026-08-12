@@ -3,6 +3,7 @@ import re
 import sys
 import os
 from typing import List
+import numpy as np
 
 # Add the project root to the path for imports
 project_root = os.path.join(os.path.dirname(__file__), "..", "..", "..")
@@ -15,7 +16,7 @@ from .data.load_signal_data import get_test_case
 from .data.sql_interface import SQLInterface
 from .utils.generate_existing_models_names import filter_network_model_names
 from .signal_processor import SignalProcessorFactory
-# from cpp.binaries import CppToPython
+from cpp.binaries import CppToPython  # type: ignore[reportMissingImports]
 
 
 class App:
@@ -32,7 +33,7 @@ class App:
     _max_complexity_input: int = 1
     _detect_soft_faults: bool = False
     _excitation_type: str = "step"
-    _peaks: XYData = XYData([], [])
+    _peaks: XYData = XYData(np.array([]), np.array([]))
 
     def __init__(self):
         self.plot_x = 230
@@ -191,7 +192,7 @@ class App:
         dbi.close_db()
         models = filter_network_model_names(
             self._parent_folder,
-            f"Model_[{min_cplxity}-{max_cplxity}]+_([1-9]|[1-9][0-9])_([1-9]|[1-9][0-9])+\.mat",
+            rf"Model_[{min_cplxity}-{max_cplxity}]+_([1-9]|[1-9][0-9])_([1-9]|[1-9][0-9])+\.mat",
         )
         tests_number = min(self._tests_number, len(models))
         self.model_names = random.sample(models, tests_number)
@@ -240,7 +241,7 @@ class App:
             }
 
             processor.run_signal_processing(parameters)
-            processor.peaks_from_model_to_db()
+            # processor.peaks_from_model_to_db()
             # gaussian_chirp_peak_extraction_function_mat(self._file_name, '/home/dhia/reconstructioncpp/NoisyChirpModels/excitation.mat', self._peak_height)
             dbi.open_db()
             dbi.clear_table("reference_loads")
@@ -313,7 +314,7 @@ class App:
         }
 
         processor.run_signal_processing(parameters)
-        processor.peaks_from_model_to_db()
+        # processor.peaks_from_model_to_db()
         # gaussian_chirp_peak_extraction_function_mat(self._file_name, '/home/dhia/reconstructioncpp/ChirpModels/excitation.mat', self._peak_height)
         print("=================> LEVEL " + str(self._reconstruction_level))
         dbi: SQLInterface = SQLInterface("database.db")

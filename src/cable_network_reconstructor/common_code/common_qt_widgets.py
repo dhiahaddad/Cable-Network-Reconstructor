@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QPixmap, QFont
 from PySide6 import QtCore, QtGui
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 
 
 class InputField_QSpinBox(QWidget):
@@ -126,11 +126,11 @@ class ImageWidget(QGroupBox):
     def initUI(self):
         font_size = int(self.height() * 0.03)
         self.setFont(QtGui.QFont("Courier", font_size))
-        self.setAlignment(QtCore.Qt.AlignCenter)
+        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         layout = QHBoxLayout()
         self.network_image = QLabel()
-        self.network_image.setAlignment(QtCore.Qt.AlignCenter)
+        self.network_image.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.network_image.setPixmap(QPixmap())  # Placeholder for the image
         layout.addWidget(self.network_image)
         self.setLayout(layout)
@@ -150,7 +150,7 @@ class MatplotlibWidget(QGroupBox):
     def initUI(self):
         font_size = int(self.height() * 0.03)
         self.setFont(QtGui.QFont("Sanserif", font_size))
-        self.setAlignment(QtCore.Qt.AlignCenter)
+        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout = QHBoxLayout()
         layout.addWidget(self.canvas)
         self.setLayout(layout)
@@ -163,8 +163,11 @@ class MatplotlibWidget(QGroupBox):
 
 
 class OutputField(QHBoxLayout):
-    def __init__(self, label: str, value: str, parent=None):
-        super(OutputField, self).__init__(parent)
+    def __init__(self, label: str, value: str, parent: QWidget | None = None) -> None:
+        if parent is None:
+            super(OutputField, self).__init__()
+        else:
+            super(OutputField, self).__init__(parent)
         self.initUI(label, value)
 
     def initUI(self, label, value):
@@ -173,7 +176,7 @@ class OutputField(QHBoxLayout):
         font_size = int(self.label.height() * 0.03)
         self.label.setFont(QtGui.QFont("Courier", font_size))
         self.value.setFont(QtGui.QFont("Courier", font_size))
-        self.setAlignment(QtCore.Qt.AlignLeft)
+        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
         self.addWidget(self.label)
         self.addWidget(self.value)
 
@@ -204,7 +207,7 @@ class OutputText(QGroupBox):
     def initUI(self, height):
         font_size = int(height / 10)
         self.setFont(QtGui.QFont("Courier", font_size))
-        self.setAlignment(QtCore.Qt.AlignCenter)
+        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.setFixedHeight(int(height))
 
         layout = QHBoxLayout()
@@ -228,22 +231,22 @@ class HeaderWidget(QWidget):
 
         logo_tuc = QLabel()
         logo_tuc.setPixmap(QPixmap("logo_tuc.png"))
-        logo_tuc.setAlignment(QtCore.Qt.AlignCenter)
+        logo_tuc.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(logo_tuc)
 
         logo_mst = QLabel()
         logo_mst.setPixmap(QPixmap("logo_mst.png"))
-        logo_mst.setAlignment(QtCore.Qt.AlignCenter)
+        logo_mst.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(logo_mst)
 
         logo_latis = QLabel()
         logo_latis.setPixmap(QPixmap("logo_latis.png"))
-        logo_latis.setAlignment(QtCore.Qt.AlignCenter)
+        logo_latis.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(logo_latis)
 
         logo_eniso = QLabel()
         logo_eniso.setPixmap(QPixmap("logo_eniso.png"))
-        logo_eniso.setAlignment(QtCore.Qt.AlignCenter)
+        logo_eniso.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(logo_eniso)
 
 
@@ -256,7 +259,7 @@ class PageTitleWidget(QGroupBox):
         font_size = int(self.height() * 0.1)
         label = QLabel("Network Reconstructor")
         label.setFont(QtGui.QFont("Sanserif", font_size))
-        label.setAlignment(QtCore.Qt.AlignCenter)
+        label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         label.setText(title)
         height = int(self.height() * 0.2)
         self.setMaximumHeight(height)

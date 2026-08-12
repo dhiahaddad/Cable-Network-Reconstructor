@@ -23,7 +23,7 @@ class HomePage(QWidget):
         title.setStyleSheet(
             f"font-size: {title_font_size}px; font-weight: bold; text-align: center;"
         )
-        title.setAlignment(QtCore.Qt.AlignCenter)
+        title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
 
         request_font_size = int(title_font_size / 2)
@@ -31,7 +31,7 @@ class HomePage(QWidget):
         request.setStyleSheet(
             f"font-size: {request_font_size}px; font-weight: normal; text-align: center;"
         )
-        request.setAlignment(QtCore.Qt.AlignCenter)
+        request.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(request)
 
         # Buttons
