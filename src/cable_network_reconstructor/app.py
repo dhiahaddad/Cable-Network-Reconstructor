@@ -21,8 +21,8 @@ try:
 except ImportError:
     CppToPython = None
 
-class App:
 
+class App:
     _initial_path_length: int = 0
     _file_name: str = ""
     _model_name: str = ""
@@ -62,16 +62,16 @@ class App:
         self.config["plot_conf"]["width"] = self.plot_width
         self.config["plot_conf"]["height"] = self.plot_height
         self.config["reconstruction_conf"]["parent_folder"] = self._parent_folder
-        self.config["reconstruction_conf"][
-            "min_complexity"
-        ] = self._min_complexity_input
-        self.config["reconstruction_conf"][
-            "max_complexity"
-        ] = self._max_complexity_input
+        self.config["reconstruction_conf"]["min_complexity"] = (
+            self._min_complexity_input
+        )
+        self.config["reconstruction_conf"]["max_complexity"] = (
+            self._max_complexity_input
+        )
         self.config["reconstruction_conf"]["tests_number"] = self._tests_number
-        self.config["reconstruction_conf"][
-            "detect_soft_faults"
-        ] = self._detect_soft_faults
+        self.config["reconstruction_conf"]["detect_soft_faults"] = (
+            self._detect_soft_faults
+        )
         self.config["reconstruction_conf"]["excitation_type"] = self._excitation_type
         YamlLoader.update_reconstruction_config(self.config)
         YamlLoader.save_reconstruction_config()

@@ -133,8 +133,7 @@ class MultiTest(QGroupBox):
     def update_statistics(self, statistics: Statistics):
         self.success_output.value.setText(str(statistics.success_percentage) + "%")
         self.time_output.value.setText(
-            f"{statistics.processing_time:,.0f}".replace(",", "'")
-            + " microseconds"
+            f"{statistics.processing_time:,.0f}".replace(",", "'") + " microseconds"
         )
         self.number_of_tests.value.setText(
             str(statistics.total_tests_number) + " tests"
@@ -143,7 +142,9 @@ class MultiTest(QGroupBox):
             str(statistics.successful_tests_number) + " tests"
         )
         self.average_time.value.setText(
-            f"{statistics.processing_time / statistics.total_tests_number:,.0f}".replace(",", "'")
+            f"{statistics.processing_time / statistics.total_tests_number:,.0f}".replace(
+                ",", "'"
+            )
             + " microseconds"
         )
 
@@ -284,8 +285,7 @@ class TestCaseResults(QGroupBox):
             "Correct" if test_case.test_result == "1" else "Incorrect"
         )
         self.test_time_output.value.setText(
-            f"{test_case.processing_time:,.0f}".replace(",", "'")
-            + " microseconds"
+            f"{test_case.processing_time:,.0f}".replace(",", "'") + " microseconds"
         )
         # self.peaks_output.value.setText(str(test_case.identified_peaks_number))
         # self.unidentified_output.value.setText(str(test_case.unidentified_peaks_number))
@@ -639,15 +639,17 @@ class SignalProcessingWidget(QWidget):
         h3.addWidget(self.chk_apply_derivative)
         h3.addWidget(self.chk_apply_integral)
         form.addRow(h3)
-        
+
         h4 = QHBoxLayout()
         self.combo_signal_display = QComboBox()
-        self.combo_signal_display.addItems([
-            "Real Part",
-            "Imaginary Part",
-            "Magnitude",
-            "Phase",
-        ])
+        self.combo_signal_display.addItems(
+            [
+                "Real Part",
+                "Imaginary Part",
+                "Magnitude",
+                "Phase",
+            ]
+        )
         # Set current index based on config
         display_map = {
             "show_real_part": 0,
@@ -801,7 +803,9 @@ class SignalProcessingWidget(QWidget):
                 ax1 = self.fig.add_subplot(211)
                 ax1.plot(freq_data.x, freq_data.y)
                 lo, hi = int(f_min * len(freq_data.x)), int(f_max * len(freq_data.x))
-                ax1.set_xlim(freq_data.x[lo], freq_data.x[min(hi, len(freq_data.x) - 1)])
+                ax1.set_xlim(
+                    freq_data.x[lo], freq_data.x[min(hi, len(freq_data.x) - 1)]
+                )
                 ax1.set_ylabel("Magnitude (dB)")
                 ax1.set_title("Frequency Domain")
 

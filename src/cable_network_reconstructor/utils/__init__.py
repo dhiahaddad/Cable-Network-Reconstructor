@@ -7,4 +7,3 @@ from .read_write_json_from_data_class import (
     write_json_statistics,
     write_json_test_cases,
 )
-

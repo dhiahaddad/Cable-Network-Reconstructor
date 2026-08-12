@@ -196,15 +196,15 @@ class ReconstructionTestConfigPage(QWidget):
             ]
 
         if self.multiTestInputs.isVisible():
-            self.config["reconstruction_conf"][
-                "min_complexity"
-            ] = self.multiTestInputs.min_complexity_input.input_field.value()
-            self.config["reconstruction_conf"][
-                "max_complexity"
-            ] = self.multiTestInputs.max_complexity_input.input_field.value()
-            self.config["reconstruction_conf"][
-                "tests_number"
-            ] = self.multiTestInputs.num_files_input.input_field.value()
+            self.config["reconstruction_conf"]["min_complexity"] = (
+                self.multiTestInputs.min_complexity_input.input_field.value()
+            )
+            self.config["reconstruction_conf"]["max_complexity"] = (
+                self.multiTestInputs.max_complexity_input.input_field.value()
+            )
+            self.config["reconstruction_conf"]["tests_number"] = (
+                self.multiTestInputs.num_files_input.input_field.value()
+            )
 
         # Update the static configuration
         YamlLoader.update_reconstruction_config(self.config)

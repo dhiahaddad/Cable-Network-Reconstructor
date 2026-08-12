@@ -93,7 +93,7 @@ class DataLoader:
             mask = time.notna() & s11.notna()
 
             self.logger.info("Loaded CSV file: %d valid data points", mask.sum())
-            return XYData(np.asarray(time[mask]),np.asarray(s11[mask]))
+            return XYData(np.asarray(time[mask]), np.asarray(s11[mask]))
         except Exception as e:
             raise ValueError(f"Failed to load CSV file {file_path}: {e!s}") from e
 
